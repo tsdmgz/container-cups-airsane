@@ -55,7 +55,7 @@ sudo podman run -d --rm --privileged \
 --volume printandscan-avahi_data:/var/run/avahi-daemon:z \
 --volume /dev/bus/usb:/dev/bus/usb \
 --volume printandscan-cups_data:/etc/cups/ \
--e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-cups,port=8899 \
+-e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899 \
 --hostname <hostname> \
 printandscan-cups
 ```
