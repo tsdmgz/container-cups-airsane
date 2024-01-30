@@ -70,6 +70,7 @@ sudo podman run -d --rm --privileged \
 --name printandscan-airsane \
 --network=printandscan \
 --publish 8090:8090 \
+--publish '[::]:8090:8090' \
 --volume printandscan-avahi_data:/var/run/avahi-daemon:z \
 --volume printandscan-airsane_data:/etc/sane.d/ \
 --volume /dev/bus/usb:/dev/bus/usb \
