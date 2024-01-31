@@ -13,9 +13,13 @@ Start these in order
 ## Prerequisites
 
 1. Create named volumes called `printandscan-avahi_data`,
-   `printandscan-cups_data`, `printandscan-airsane_data`
-2. Create a network called `printandscan`
-3. `echo -n "dbus cups airsane"|tr ' ' '\n'|xargs -I{} sudo podman build -t printandscan-{} {}`
+   `printandscan-cups_data`, `printandscan-airsane_data`: `echo -n "avahi cups
+   airsane"|tr ' ' '\n'|xargs -I{} -n 1 sudo podman volume create
+   printandscan-{}_data`
+2. Create a network called `printandscan`: `sudo podman network create --ipv6
+   printandscan`
+3. `echo -n "dbus cups airsane"|tr ' ' '\n'|xargs -I{} -n 1 sudo podman build -t
+   printandscan-{} {}`
 
 ## DBUS
 
@@ -36,7 +40,7 @@ sudo podman run -d --rm \
 --volume printandscan-avahi_data:/var/run/avahi-daemon:z \
 -e SERVER_ENABLE_DBUS=yes \
 -e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=8899 \
---hostname <hostname> \
+--hostname $(hostname -f) \
 docker.io/flungo/avahi
 ```
 
@@ -75,6 +79,6 @@ sudo podman run -d --rm --privileged \
 --volume printandscan-airsane_data:/etc/sane.d/ \
 --volume /dev/bus/usb:/dev/bus/usb \
 -e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899 \
---hostname <hostname> \
+--hostname $(hostname -f) \
 printandscan-airsane
 ```
