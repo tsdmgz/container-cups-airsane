@@ -60,7 +60,7 @@ sudo podman run -d --rm --privileged \
 --volume /dev/bus/usb:/dev/bus/usb \
 --volume printandscan-cups_data:/etc/cups/ \
 -e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899 \
---hostname <hostname> \
+--hostname $(hostname -f) \
 printandscan-cups
 ```
 
@@ -70,7 +70,7 @@ Epson printers.
 ## AirSane
 
 ```
-sudo podman run -d --rm --privileged \
+sudo podman run -d --rm \
 --name printandscan-airsane \
 --network=printandscan \
 --publish 8090:8090 \
@@ -78,6 +78,9 @@ sudo podman run -d --rm --privileged \
 --volume printandscan-avahi_data:/var/run/avahi-daemon:z \
 --volume printandscan-airsane_data:/etc/sane.d/ \
 --volume /dev/bus/usb:/dev/bus/usb \
+--uidmap=0:$(id -u lp) \
+--gidmap=0:$(id -g lp) \
+--stop-signal SIGKILL \
 -e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899 \
 --hostname $(hostname -f) \
 printandscan-airsane
