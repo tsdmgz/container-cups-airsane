@@ -20,6 +20,7 @@ Start these in order
    printandscan`
 3. `echo -n "dbus cups airsane"|tr ' ' '\n'|xargs -I{} -n 1 sudo podman build -t
    printandscan-{} {}`
+4. `sudo setsebool container_use_devices=true`
 
 ## DBUS
 
@@ -52,15 +53,19 @@ out yet.
 ## CUPS
 
 ```
-sudo podman run -d --rm --privileged \
+sudo podman run -d --rm \
 --name printandscan-cups \
 --network=printandscan \
 --publish 631:631 \
---volume printandscan-avahi_data:/var/run/avahi-daemon:z \
---volume /dev/bus/usb:/dev/bus/usb \
+--volumes-from printandscan-avahi \
 --volume printandscan-cups_data:/etc/cups/ \
+--volume /dev/bus/usb:/dev/bus/usb \
 -e DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899 \
 --hostname $(hostname -f) \
+--uidmap=0:0:1 \
+--gidmap=0:0:1 \
+--uidmap=4:$(id -u lp):1 \
+--gidmap=7:$(id -g lp):1 \
 printandscan-cups
 ```
 
@@ -75,7 +80,7 @@ sudo podman run -d --rm \
 --network=printandscan \
 --publish 8090:8090 \
 --publish '[::]:8090:8090' \
---volume printandscan-avahi_data:/var/run/avahi-daemon:z \
+--volumes-from printandscan-avahi \
 --volume printandscan-airsane_data:/etc/sane.d/ \
 --volume /dev/bus/usb:/dev/bus/usb \
 --uidmap=0:$(id -u lp) \
