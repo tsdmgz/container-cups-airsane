@@ -7,8 +7,13 @@ env:
   AUTH_FILE_PATH: /run/containers/0/auth.json
   image_tags: latest
 
+
 jobs:
   build-container-dbus:
+    container:
+      credentials:
+        username: ${{ gitea.actor }}
+        password: ${{ secrets.PERSONAL_PUSH_TOKEN }}
     runs-on: opensuse-tumbleweed-latest
     env:
       image_name: printandscan-dbus
