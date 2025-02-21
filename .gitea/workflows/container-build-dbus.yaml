@@ -1,0 +1,49 @@
+name: Build and push images
+run-name: Build
+on:
+  - push
+env:
+  registry_fqdn: git.phmnl01.dmgznet.com
+  AUTH_FILE_PATH: /run/containers/0/auth.json
+  image_tags: latest
+
+on:
+  push:
+    paths:
+      - .gitea/workflows/container-build-dbus.yaml
+      - dbus/Dockerfile
+      - dbus/entrypoint.sh
+
+jobs:
+  build-container-dbus:
+    container:
+      credentials:
+        username: ${{ gitea.actor }}
+        password: ${{ secrets.PERSONAL_PUSH_TOKEN }}
+    runs-on: opensuse-tumbleweed-latest
+    env:
+      image_name: printandscan-dbus
+    steps:
+      - run: env
+      - uses: https://github.com/actions/checkout@v4
+        name: Check out repo
+      - uses: https://github.com/redhat-actions/podman-login@v1
+        name: Log in to registry
+        with:
+          registry: ${{ gitea.server_url }}
+          username: ${{ gitea.actor }}
+          password: ${{ secrets.ACCESS_TOKEN }}
+          auth_file_path: ${{ env.AUTH_FILE_PATH }}
+      - uses: https://github.com/redhat-actions/buildah-build@main
+        name: Build image
+        with:
+          image: ${{ env.image_name }}
+          tags: ${{ gitea.sha }}
+          registry: ${{ env.registry_fqdn }}
+          containerfiles: ./Dockerfile
+      - uses: https://github.com/redhat-actions/push-to-registry@v2
+        name: Push to registry
+        with:
+          image: ${{ env.image_name }}
+          tags: ${{ gitea.sha }}
+          registry: ${{ env.registry_fqdn }}/tsdmgz
