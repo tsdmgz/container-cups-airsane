@@ -1,12 +1,9 @@
 name: Build and push images
 run-name: Build
-on:
-  - push
 env:
   registry_fqdn: git.phmnl01.dmgznet.com
   AUTH_FILE_PATH: /run/containers/0/auth.json
   image_tags: latest
-
 on:
   push:
     paths:
