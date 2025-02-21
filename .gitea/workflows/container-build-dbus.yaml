@@ -29,7 +29,7 @@ jobs:
         with:
           registry: ${{ gitea.server_url }}
           username: ${{ gitea.actor }}
-          password: ${{ secrets.ACCESS_TOKEN }}
+          password: ${{ gitea.token }}
           auth_file_path: ${{ env.AUTH_FILE_PATH }}
       - uses: https://github.com/redhat-actions/buildah-build@main
         name: Build image
