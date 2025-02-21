@@ -7,6 +7,12 @@ env:
   AUTH_FILE_PATH: /run/containers/0/auth.json
   image_tags: latest
 
+on:
+  push:
+    paths:
+      - dbus/Dockerfile
+      - dbus/entrypoint.sh
+
 
 jobs:
   build-container-dbus:
@@ -17,11 +23,6 @@ jobs:
     runs-on: opensuse-tumbleweed-latest
     env:
       image_name: printandscan-dbus
-    on:
-      push:
-        paths:
-          - dbus/Dockerfile
-          - dbus/entrypoint.sh
     steps:
       - run: env
       - uses: https://github.com/actions/checkout@v4
