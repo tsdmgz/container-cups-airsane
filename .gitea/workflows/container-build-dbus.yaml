@@ -4,6 +4,7 @@ env:
   registry_fqdn: git.phmnl01.dmgznet.com
   AUTH_FILE_PATH: /run/containers/0/auth.json
   image_tags: latest
+  CONTAINER_HOST: tcp://localhost:2376
 on:
   push:
     paths:
