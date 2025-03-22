@@ -1,0 +1,16 @@
+[Install]
+WantedBy=multi-user.target
+After=printandscan-avahi.container
+
+[Unit]
+Description=CUPS print server
+
+[Container]
+Image=git.phmnl01.dmgznet.com/tsdmgz/printandscan-cups:20250209
+PodmanArgs=--privileged
+Name=printandscan-cups
+Network=printandscan
+PublishPort=631:631
+Environment=DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899
+Volume=printandscan-avahi_data:/var/run/avahi-daemon:z
+Volume=printandscan-cups_data:/etc/cups/

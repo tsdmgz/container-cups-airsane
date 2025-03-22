@@ -1,0 +1,14 @@
+[Install]
+WantedBy=multi-user.target
+After=printandscan-dbus.container
+
+[Unit]
+Description=Avahi daemon (aka ZeroConf, Bonjour)
+
+[Container]
+Image=docker.io/flungo/avahi
+Volume=printandscan-avahi_data:/var/run/avahi-daemon:z
+Environment=SERVER_ENABLE_DBUS=yes
+Environment=DBUS_SYSTEM_BUS_ADDRESS=tcp:host=localhost,port=8899
+PUBLISH_PUBLISH_A_ON_IPV6=true
+Network=host

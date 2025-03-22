@@ -1,0 +1,15 @@
+[Install]
+WantedBy=multi-user.target
+After=printandscan-avahi.container
+
+[Unit]
+Description=Mopria-compliant network scan daemon
+
+[Container]
+Image=git.phmnl01.dmgznet.com/tsdmgz/printandscan-airsane:20250209
+PodmanArgs=--privileged
+Network=printandscan
+Publish=[::]:8090:8090
+Volume=printandscan-airsane_data:/etc/sane.d/
+Volume=printandscan-avahi_data:/var/run/avahi-daemon:z
+Environment=DBUS_SYSTEM_BUS_ADDRESS=tcp:host=printandscan-dbus,port=8899

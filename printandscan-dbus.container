@@ -1,0 +1,10 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=D-Bus service for containers
+
+[Container]
+Image=git.phmnl01.dmgznet.com/tsdmgz/printandscan-dbus:20250209
+Network=printandscan
+Publish=127.0.0.1:8899:8899
