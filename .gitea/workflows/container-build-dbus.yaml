@@ -12,7 +12,7 @@ on:
       - dbus/**
 
 jobs:
-  build-container-dbus:
+  build-image:
     container:
       credentials:
         username: ${{ gitea.actor }}
