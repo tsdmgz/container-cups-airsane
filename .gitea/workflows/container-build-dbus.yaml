@@ -5,6 +5,7 @@ env:
   AUTH_FILE_PATH: /run/containers/0/auth.json
   image_tags: latest
   CONTAINER_HOST: tcp://localhost:2376
+  STORAGE_DRIVER: vfs
 on:
   push:
     paths:
