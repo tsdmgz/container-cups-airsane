@@ -9,8 +9,7 @@ on:
   push:
     paths:
       - .gitea/workflows/container-build-dbus.yaml
-      - dbus/Dockerfile
-      - dbus/entrypoint.sh
+      - dbus/**
 
 jobs:
   build-container-dbus:
