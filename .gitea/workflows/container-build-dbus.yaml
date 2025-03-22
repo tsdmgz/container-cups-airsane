@@ -38,7 +38,7 @@ jobs:
           tags: ${{ gitea.sha }}
           registry: ${{ env.registry_fqdn }}
           context: ./dbus
-          containerfiles: Dockerfile
+          containerfiles: ./dbus/Dockerfile
       - uses: https://github.com/redhat-actions/push-to-registry@v2
         name: Push to registry
         with:
