@@ -5,7 +5,6 @@ env:
   AUTH_FILE_PATH: /run/containers/0/auth.json
   image_tags: latest
   CONTAINER_HOST: tcp://localhost:2376
-  STORAGE_DRIVER: vfs
 on:
   push:
     paths:
@@ -38,7 +37,7 @@ jobs:
           image: ${{ env.image_name }}
           tags: ${{ gitea.sha }}
           registry: ${{ env.registry_fqdn }}
-          containerfiles: ./Dockerfile
+          containerfiles: ./dbus/Dockerfile
       - uses: https://github.com/redhat-actions/push-to-registry@v2
         name: Push to registry
         with:
