@@ -1,5 +1,5 @@
-FROM docker.io/library/alpine:latest
-RUN --mount=type=cache,target=/var/cache/apk apk add dbus
+FROM git.phmnl01.dmgznet.com/ci/opensuse/tumbleweed
+RUN --mount=type=cache,target=/var/cache zypper --non-interactive in dbus-1-daemon
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENV DBUS_LISTEN_PORT=8899
