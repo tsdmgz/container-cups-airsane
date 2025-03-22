@@ -19,7 +19,7 @@ jobs:
         password: ${{ secrets.PERSONAL_PUSH_TOKEN }}
     runs-on: opensuse-tumbleweed-latest
     env:
-      image_name: printandscan-dbus
+      image_name: ${{ gitea.actor }}/printandscan-dbus
     steps:
       - run: env
       - uses: https://github.com/actions/checkout@v4
@@ -44,4 +44,4 @@ jobs:
         with:
           image: ${{ env.image_name }}
           tags: ${{ gitea.sha }}
-          registry: ${{ env.registry_fqdn }}/tsdmgz
+          registry: ${{ env.registry_fqdn }}
